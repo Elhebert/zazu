@@ -1,6 +1,6 @@
 # Zazu
 
-https://travis-ci.org/Elhebert/zazu.svg?branch=master
+![travis](https://travis-ci.org/Elhebert/zazu.svg?branch=master)
 
 ### Still WIP
 
