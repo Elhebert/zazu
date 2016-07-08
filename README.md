@@ -1,6 +1,6 @@
 # Zazu
 
-![travis](https://travis-ci.org/Elhebert/zazu.svg?branch=master)
+This is Zazu, a light ES6 javascript module to create autocomplete inputs. [travis](https://travis-ci.org/Elhebert/zazu.svg?branch=master)
 
 ### Still WIP
 
