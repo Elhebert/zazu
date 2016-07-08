@@ -1,0 +1,12 @@
+language: node_js
+
+node_js:
+  - 4.2.x
+
+before_script:
+  - npm install jscs
+  - npm install jshint
+
+script:
+  - jshint -c .jshintrc zazu.js
+  - jscs -c .jscsrc zazu.js
