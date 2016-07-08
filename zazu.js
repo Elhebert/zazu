@@ -1,93 +1,93 @@
 {
 
-	class Zazu {
+  class Zazu {
 
-		constructor (api = null, data = [], options = {}) {
-			this.jsonData = data;
-			this.api = api;
+    constructor (api = null, data = [], options = {}) {
+      this.jsonData = data;
+      this.api = api;
 
-			/*
-			 * Possible options are:
-			 * - higlight (default: strong): which HTML tag to use to higlight the query
-			 * - classHighlight (default: ''): Css class for the higlighted element
-			 * - surround (default: li): which HTML tag to use to surround the result
-			 * - classSrround (default: ''): Css class for the surrounding element
-			 */
-			let defaults = {
-				highlight: 'strong',
-				classHighlight: '',
-				surround: 'li',
-				classSurround: '',
-			};
+      /*
+       * Possible options are:
+       * - higlight (default: strong): which HTML tag to use to higlight the query
+       * - classHighlight (default: ''): Css class for the higlighted element
+       * - surround (default: li): which HTML tag to use to surround the result
+       * - classSrround (default: ''): Css class for the surrounding element
+       */
+      let defaults = {
+        highlight: 'strong',
+        classHighlight: '',
+        surround: 'li',
+        classSurround: '',
+      };
 
-			this.options = this.setOptions(defaults, options);
-		}
+      this.options = this.setOptions(defaults, options);
+    }
 
-		makeAutoComplete (element) {
-			Zazu.getData();
-			let resultElement = element.getAttribute('data-ac-results');
+    makeAutoComplete (element) {
+      Zazu.getData();
+      let resultElement = document.querySelector('data-ac-results');
 
-			if (!resultElement) {
-				resultElement = document.createElement('div');
-				element.parentNode.insertBefore(resultElement, element.nextSibling);
-			}
+      if (!resultElement) {
+        resultElement = document.createElement('div');
+        element.parentNode.insertBefore(resultElement, element.nextSibling);
+      }
 
-			let onInput = () => {
-				let inputValue = event.target.value;
-				let regexp = new RegExp('^(' + inputValue + ')(.*)$', 'igm');
+      let onInput = () => {
+        let inputValue = event.target.value;
+        let regexp = new RegExp('^(' + inputValue + ')(.*)$', 'igm');
 
-				this.jsonData.forEach(element => {
-					let match = element.match(regexp, element);
-					let styledElement = '';
+        this.jsonData.forEach(element => {
+          let match = element.match(regexp, element);
+          let styledElement = '';
 
-					if (match) {
-						styledElement =
-							'<' + this.options.highlight + ' class="' + this.options.classHighlight + '">' +
-							match[1] + '</' + this.options.highlight + '>' + match[2];
-						resultElement.innerHTML = resultElement.innerHTML +
-							'<' + this.options.surround + ' class="' + this.options.classSurround + '">' +
-							styledElement + '</' + this.options.surround + '>';
-					}
-				});
-			};
+          if (match) {
+            styledElement =
+              '<' + this.options.highlight + ' class="' + this.options.classHighlight + '">' +
+              match[1] + '</' + this.options.highlight + '>' + match[2];
+            resultElement.innerHTML = resultElement.innerHTML +
+              '<' + this.options.surround + ' class="' + this.options.classSurround + '">' +
+              styledElement + '</' + this.options.surround + '>';
+          }
+        });
+      };
 
-			element.addEventListener('input', onInput);
-		}
+      element.addEventListener('input', onInput);
+    }
 
-		getData () {
-			if (this.api) {
-				let request = new XMLHttpRequest();
+    getData () {
+      if (this.api) {
+        let request = new XMLHttpRequest();
 
-				request.onreadystatechange = () => {
-					if(request.readyState === 4) {
-						if(request.status === 200)
-							this.jsonData.push(JSON.parse(request.response));
-					}
-				};
+        request.onreadystatechange = () => {
+          if(request.readyState === 4) {
+            if(request.status === 200)
+              this.jsonData.push(JSON.parse(request.response));
+          }
+        };
 
-				request.open('Get', this.api);
-			}
-		}
+        request.open('Get', this.api);
+      }
+    }
 
-		setOptions(defaults, properties) {
-			for (let property in properties) {
-				if (properties.hasOwnProperty(property)) {
-					defaults[property] = properties[property];
-				}
-			}
+    setOptions(defaults, properties) {
+      for (let property in properties) {
+        if (properties.hasOwnProperty(property)) {
+          defaults[property] = properties[property];
+        }
+      }
 
-			return defaults;
-		}
-	}
+      return defaults;
+    }
+  }
 
-	/**
-	 * Make every element with the [data-autocomplete] attribute an auto-complete input.
-	 */
-	let myAutocomplete = new Zazu('test-api-url');
+  /**
+   * Make every element with the [data-autocomplete] attribute an auto-complete input.
+   */
+  let myAutocomplete = new Zazu('test-api-url');
 
-	let elements = document.querySelectorAll('[data-autocomplete]');
-	for (let key in elements) {
-		if (elements.hasOwnProperty(key))
-			myAutocomplete.makeAutoComplete(elements[key]);
-	}
+  let elements = document.querySelectorAll('[data-autocomplete]');
+  for (let key in elements) {
+    if (elements.hasOwnProperty(key))
+      myAutocomplete.makeAutoComplete(elements[key]);
+  }
 }
