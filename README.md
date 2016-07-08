@@ -1,5 +1,7 @@
 # Zazu
 
+https://travis-ci.org/Elhebert/zazu.svg?branch=master
+
 ### Still WIP
 
 > It's a small world after all !
