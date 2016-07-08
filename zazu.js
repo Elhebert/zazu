@@ -1,5 +1,4 @@
 {
-
   class Zazu {
 
     constructor (api = null, data = [], options = {}) {
@@ -25,7 +24,7 @@
 
     makeAutoComplete (element) {
       Zazu.getData();
-      let resultElement = document.querySelector('data-ac-results');
+      let resultElement = document.querySelector('[data-ac-results]');
 
       if (!resultElement) {
         resultElement = document.createElement('div');
@@ -59,8 +58,8 @@
         let request = new XMLHttpRequest();
 
         request.onreadystatechange = () => {
-          if(request.readyState === 4) {
-            if(request.status === 200)
+          if (request.readyState === 4) {
+            if (request.status === 200)
               this.jsonData.push(JSON.parse(request.response));
           }
         };
