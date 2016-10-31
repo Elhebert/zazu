@@ -10,7 +10,7 @@
        * - higlight (default: strong): which HTML tag to use to higlight the query
        * - classHighlight (default: ''): Css class for the higlighted element
        * - surround (default: li): which HTML tag to use to surround the result
-       * - classSrround (default: ''): Css class for the surrounding element
+       * - classSurround (default: ''): Css class for the surrounding element
        */
       let defaults = {
         highlight: 'strong',
@@ -33,19 +33,20 @@
 
       let onInput = () => {
         let inputValue = event.target.value;
-        let regexp = new RegExp('^(' + inputValue + ')(.*)$', 'igm');
+        let regexp = new RegExp('^(.*)(' + inputValue + ')(.*)$', 'igm');
 
         this.jsonData.forEach(element => {
           let match = element.match(regexp, element);
-          let styledElement = '';
 
           if (match) {
-            styledElement =
-              '<' + this.options.highlight + ' class="' + this.options.classHighlight + '">' +
-              match[1] + '</' + this.options.highlight + '>' + match[2];
-            resultElement.innerHTML = resultElement.innerHTML +
-              '<' + this.options.surround + ' class="' + this.options.classSurround + '">' +
-              styledElement + '</' + this.options.surround + '>';
+            let styledElement =
+              `${match[1]}<${this.options.highlight} class="${this.options.classHighlight}">
+                ${match[2]}
+              </${this.options.highlight}>${match[3]}`;
+            resultElement.insertAdjacentHTML('beforeend',
+              `<${this.options.surround} class="${this.options.classSurround}">
+                ${styledElement}
+              </${this.options.surround}>`);
           }
         });
       };
